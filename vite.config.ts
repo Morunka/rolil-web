@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/By-ROlil-Studio/',
+  base: '/rolil-web/',
   plugins: [vue()],
   server: {
     host: true,
