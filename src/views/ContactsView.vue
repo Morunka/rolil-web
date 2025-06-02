@@ -125,7 +125,7 @@
   const stats = ref([
     { value: '1', label: 'Team Member' },
     { value: '4+', label: 'Years Experience' },
-    { value: '25%', label: 'Dedication' },
+    { value: '90%', label: 'Dedication' },
     { value: '8/7', label: 'Availability' }
   ])
   
