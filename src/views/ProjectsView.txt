@@ -1,0 +1,1421 @@
+<template>
+  <div class="projects">
+    <div class="projects-content">
+      <section class="projects-header">
+        <div class="header-content">
+          <h1 class="page-title">
+            <span class="brand-gradient">Projects</span>
+            Portfolio
+          </h1>
+          <p class="page-description">
+            Explore our diverse collection of games, applications, and digital experiences.
+          </p>
+        </div>
+      </section>
+
+      <section class="category-navigation">
+        <div class="nav-container">
+          <div class="category-buttons">
+            <button
+              v-for="category in categories"
+              :key="category.id"
+              :class="['category-button', { 'active': activeCategory === category.id }]"
+              @click="setActiveCategory(category.id)"
+            >
+              <font-awesome-icon :icon="['fas', category.icon]" />
+              <span>{{ category.name }}</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="projects-sections">
+        <section v-if="activeCategory === 'games' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Latest Projects</h2>
+          <div class="projects-container" v-if="latestProjects.length > 0">
+            <div class="projects-grid">
+              <div
+                v-for="project in latestProjects"
+                :key="project.id"
+                class="project-card"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                  <img
+                    v-if="project.image && !imageLoadFailedState[project.id]"
+                    :src="project.image"
+                    :alt="project.title"
+                    class="project-actual-image"
+                    @error="() => setImageLoadFailed(project.id)"
+                  >
+                  <div
+                    v-else
+                    class="project-placeholder"
+                  >
+                    <font-awesome-icon :icon="['fas', project.icon]" />
+                  </div>
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                  <div class="project-tags">
+                    <span v-for="tag in project.tags" :key="tag" class="project-tag">
+                      {{ tag }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="empty-section">
+            <font-awesome-icon :icon="['fas', 'clock']" />
+            <h3>Coming Soon!</h3>
+            <p>New projects are currently in development.</p>
+          </div>
+        </section>
+
+        <section v-if="activeCategory === 'games' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Horror Games</h2>
+          <div class="projects-container">
+            <div class="projects-scroll">
+              <div
+                v-for="project in horrorGames"
+                :key="project.id"
+                class="project-card horizontal"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                   <img
+                    v-if="project.image && !imageLoadFailedState[project.id]"
+                    :src="project.image"
+                    :alt="project.title"
+                    class="project-actual-image"
+                    @error="() => setImageLoadFailed(project.id)"
+                  >
+                  <div
+                    v-else
+                    class="project-placeholder"
+                  >
+                    <font-awesome-icon :icon="['fas', project.icon]" />
+                  </div>
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                  <div class="project-tags">
+                    <span v-for="tag in project.tags" :key="tag" class="project-tag">
+                      {{ tag }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section v-if="activeCategory === 'games' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Arcade Games</h2>
+          <div class="projects-container">
+            <div class="projects-scroll">
+              <div
+                v-for="project in arcadeGames"
+                :key="project.id"
+                class="project-card horizontal"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                   <img
+                    v-if="project.image && !imageLoadFailedState[project.id]"
+                    :src="project.image"
+                    :alt="project.title"
+                    class="project-actual-image"
+                    @error="() => setImageLoadFailed(project.id)"
+                  >
+                  <div
+                    v-else
+                    class="project-placeholder"
+                  >
+                    <font-awesome-icon :icon="['fas', project.icon]" />
+                  </div>
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                  <div class="project-tags">
+                    <span v-for="tag in project.tags" :key="tag" class="project-tag">
+                      {{ tag }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section v-if="activeCategory === 'web' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Web Applications</h2>
+          <div class="projects-container">
+            <div class="projects-scroll">
+              <div
+                v-for="project in webApps"
+                :key="project.id"
+                class="project-card horizontal"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                   <img
+                    v-if="project.image && !imageLoadFailedState[project.id]"
+                    :src="project.image"
+                    :alt="project.title"
+                    class="project-actual-image"
+                    @error="() => setImageLoadFailed(project.id)"
+                  >
+                  <div
+                    v-else
+                    class="project-placeholder"
+                  >
+                    <font-awesome-icon :icon="['fas', project.icon]" />
+                  </div>
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section v-if="activeCategory === 'extensions' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Extensions</h2>
+          <div class="projects-container">
+            <div class="projects-scroll">
+              <div
+                v-for="project in extensions"
+                :key="project.id"
+                class="project-card horizontal"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section v-if="activeCategory === 'other' || activeCategory === 'all'" class="projects-section">
+          <h2 class="section-title">Other Projects</h2>
+          <div class="projects-container">
+            <div class="projects-scroll">
+              <div
+                v-for="project in otherProjects"
+                :key="project.id"
+                class="project-card horizontal"
+                @click="openProject(project)"
+              >
+                <div class="project-image">
+                  <div class="project-overlay">
+                    <button class="play-button">
+                      <font-awesome-icon :icon="['fas', 'play']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="project-info">
+                  <h3 class="project-title">{{ project.title }}</h3>
+                  <p class="project-description">{{ project.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="projects-footer">
+        <div class="footer-content">
+          <p class="footer-text">
+            Looking for Kogama games?
+            <a href="https://www.kogama.com/profile/667438867/games/" class="footer-link" target="_blank" rel="noopener noreferrer">
+              <font-awesome-icon :icon="['fas', 'external-link-alt']" />
+              Check here
+            </a>
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+// Assuming FontAwesomeIcon is globally registered or imported elsewhere in your project setup
+// If not, you might need: import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+const router = useRouter()
+
+interface Project {
+  id: number
+  title: string
+  description: string
+  icon: string // Icon for placeholder
+  tags: string[]
+  category: string
+  image?: string // Image URL is optional
+  url?: string
+}
+
+interface Category {
+  id: string
+  name: string
+  icon: string
+}
+
+const activeCategory = ref('all')
+
+const categories: Category[] = [
+  { id: 'all', name: 'All', icon: 'th' },
+  { id: 'games', name: 'Games', icon: 'gamepad' },
+  { id: 'web', name: 'Web Apps', icon: 'code' },
+  { id: 'extensions', name: 'Extensions', icon: 'arrow-up-right-from-square' },
+  { id: 'other', name: 'Other', icon: 'file-code' }
+]
+
+const projects = ref<Project[]>([
+  // Horror Games
+  {
+    id: 1,
+    title: 'Five Nights at Stickmans 2',
+    description: 'The thrilling sequel to the popular horror game series.',
+    icon: 'ghost',
+    tags: ['Horror', 'Indie', 'Survival'],
+    image: 'https://m.gjcdn.net/game-thumbnail/500/927351-9wkyvrkh-v4.webp',
+    category: 'horror',
+    url: 'https://gamejolt.com/games/FNAS2-BYROLILCO-FXCHKENTERTAIMENT/927351'
+  },
+  {
+    id: 2,
+    title: 'Five Nights at Stickmans',
+    description: 'Original horror game that started the series.',
+    icon: 'eye',
+    tags: ['Horror', 'Indie', 'Survival'],
+    image: 'https://m.gjcdn.net/game-thumbnail/500/927326-nqq7xnxe-v4.webp',
+    category: 'horror',
+    url: 'https://gamejolt.com/games/FNAS/927326'
+  },
+  {
+    id: 3,
+    title: 'Protect Pikacky',
+    description: 'Defend your character in this intense horror experience.',
+    icon: 'shield-alt', // Changed from shield-alt to shield-halved for Font Awesome 6+ fas
+    tags: ['Survival', 'Defense', 'Indie'],
+    image: 'https://i.ibb.co/N22vRPYC/Protect-Pikacky.png',
+    category: 'horror',
+    url: 'https://scratch.mit.edu/projects/919319419/'
+  },
+  {
+    id: 4,
+    title: 'Flash',
+    description: 'Quick-paced horror game with jump scares.',
+    icon: 'bolt',
+    tags: ['Horror', 'Fast-paced', 'Thriller'],
+    image: 'https://i.ibb.co/RGhdB00s/Flash.jpg', // This is a placeholder image URL from the original code
+    category: 'horror',
+    url: 'https://scratch.mit.edu/projects/946644846/'
+  },
+  // Arcade Games
+  {
+    id: 5,
+    title: 'Racing Cars Adventures',
+    description: 'High-speed racing with adventure elements, boss battles and puzzles.',
+    icon: 'car',
+    tags: ['Puzzle', 'Adventure', 'Arcade'],
+    image: 'https://i.ibb.co/Z6RsQhsV/The-Race-RU.png', // Using the same placeholder image URL
+    category: 'arcade',
+    url: 'https://by-rolil-studio.itch.io/racing-cars-adventures'
+  },
+// Web Applications
+{
+    id: 6,
+    title: 'ToDo task list «Focus»',
+    description: 'Manage and save your ToDo tasks.',
+    icon: '',
+    tags: ['', '', ''],
+    image: 'https://i.ibb.co/TxC2CtGd/preview.png',
+    category: 'web',
+    url: 'https://by-rolil-studio.itch.io/racing-cars-adventures'
+  },
+// Extensions
+{
+    id: 7,
+    title: 'Telegram API Pack Edition',
+    description: 'Connect you PenguinMod project to Telegram.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'extensions',
+    url: 'https://github.com/Morunka/penguinmod-turbowarp-extensions/tree/main/turbowarp-penguinmod-telegram-pack'
+  },
+  {
+    id: 8,
+    title: 'Scratch API',
+    description: 'User scratch API in PenguinMod.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'extensions',
+    url: 'https://github.com/Morunka/penguinmod-turbowarp-extensions/tree/main/turbowarp-penguinmod-telegram-pack'
+  },
+  {
+    id: 9,
+    title: 'GeMini API',
+    description: 'Use GeMini powerful AI in PenguinMod.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'extensions',
+    url: 'https://github.com/Morunka/penguinmod-turbowarp-extensions/tree/main/turbowarp-penguinmod-telegram-pack'
+  },
+  // Other
+  {
+    id: 10,
+    title: 'Improve Script',
+    description: 'Improve script for package you PenguinMod projects.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'other',
+    url: 'https://github.com/Morunka/penguinmod-turbowarp-extensions/blob/main/codes/base-pm-packaged-projects.js'
+  },
+  {
+    id: 11,
+    title: 'UNMiner tool',
+    description: 'Disable miners for you Windows OS.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'other',
+    url: 'https://github.com/Morunka/penguinmod-turbowarp-extensions/blob/main/codes/base-pm-packaged-projects.js'
+  },
+  {
+    id: 12,
+    title: 'UNMiner tool',
+    description: 'Disable miners for you Windows OS.',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'other',
+    url: '../downloads/UNMinerTool.sb3'
+  },
+  {
+    id: 13,
+    title: 'TS3 Music Downloader',
+    description: 'Download all music from the sims 3 ',
+    icon: '',
+    tags: ['', '', ''],
+    image: '',
+    category: 'other',
+    url: '../downloads/TS3-Music-Downloader.py'
+  },
+
+])
+// Reactive state to track image loading failures
+const imageLoadFailedState = reactive<Record<number, boolean>>({});
+
+// Initialize failure states
+projects.value.forEach(project => {
+  imageLoadFailedState[project.id] = false;
+});
+
+const setImageLoadFailed = (projectId: number) => {
+  imageLoadFailedState[projectId] = true;
+  // console.warn(`Image failed to load for project ID: ${projectId}`);
+};
+
+const latestProjects = computed(() => {
+  const desiredLatestTitles = [
+    'Racing Cars Adventures',
+    'Five Nights at Stickmans',
+    'Five Nights at Stickmans 2'
+  ];
+
+  // Filter projects and ensure they are not undefined
+  return desiredLatestTitles
+    .map(title => projects.value.find(project => project.title === title))
+    .filter((project): project is Project => project !== undefined);
+});
+
+const horrorGames = computed(() => {
+  return projects.value.filter(p => p.category === 'horror')
+})
+
+const arcadeGames = computed(() => {
+  return projects.value.filter(p => p.category === 'arcade')
+})
+
+const setActiveCategory = (categoryId: string) => {
+  activeCategory.value = categoryId
+}
+
+const openProject = (project: Project) => {
+  if (project.url) {
+    window.open(project.url, '_blank', 'noopener noreferrer') // Added rel for security
+  } else {
+    // Consider replacing alert with a more user-friendly notification/modal if possible in your project
+    alert(`Opening ${project.title}... (Project URL not configured)`)
+  }
+}
+</script>
+
+<style scoped lang="scss">
+// Styles for the newly added .project-actual-image
+.project-actual-image {
+  position: absolute; // Take up the full space of .project-image
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; // Cover the area, cropping if necessary
+  z-index: 1; // Sit above background, below overlay
+}
+
+// Ensure placeholder is also z-indexed if it's not managed by v-if/v-else exclusively
+.project-placeholder {
+  // Original styles for project-placeholder make it centered by parent flex container
+  // If it needs to be layered, ensure z-index or adjust display logic.
+  // Given the v-if/v-else, only one will be in DOM, so layering might not be an issue here.
+  // However, if .project-image has a background, this placeholder will sit on top.
+  position: relative; // To establish a stacking context if needed, though likely not with v-if/else
+  z-index: 1; // Consistent with image
+}
+
+.project-overlay {
+  // Original styles: position: absolute, etc.
+  z-index: 2; // Ensure overlay is on top of image or placeholder
+}
+
+// --- EXISTING STYLES BELOW ---
+// (Your existing SCSS styles are preserved here)
+.projects {
+  position: relative;
+  min-height: calc(100vh - 200px);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    min-height: calc(100vh - 120px);
+  }
+
+  @media (max-width: 480px) {
+    min-height: calc(100vh - 100px);
+  }
+}
+
+.projects-content {
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.projects-header {
+  padding: 3rem 0;
+  text-align: center;
+
+  @media (max-width: 1024px) {
+    padding: 2.5rem 0;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 320px) {
+    padding: 1rem 0;
+  }
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0 0.5rem;
+  }
+}
+
+.page-title {
+  font-size: clamp(1.75rem, 8vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+  word-break: break-word;
+  hyphens: auto;
+
+  @media (max-width: 480px) {
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  @media (max-width: 320px) {
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.5rem, 10vw, 2.5rem);
+  }
+
+  .brand-gradient {
+    background: linear-gradient(135deg, #646cff, #535bf2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2s ease-in-out infinite alternate;
+
+    @supports not (-webkit-background-clip: text) {
+      color: #646cff;
+    }
+  }
+}
+
+.page-description {
+  font-size: clamp(0.875rem, 3vw, 1.125rem);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: 480px) {
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.category-navigation {
+  padding: 2rem 0;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0;
+  }
+
+  @media (prefers-color-scheme: light) {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0 0.5rem;
+  }
+}
+
+.category-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: 0.75rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(100, 108, 255, 0.6);
+      border-radius: 2px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.5rem;
+  }
+}
+
+.category-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+  font-size: 0.875rem;
+
+  @media (max-width: 768px) {
+    flex-shrink: 0;
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    gap: 0.375rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0.375rem 0.625rem;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(100, 108, 255, 0.3);
+      transform: translateY(-2px);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(100, 108, 255, 0.3);
+      transform: scale(0.95);
+    }
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #646cff, #535bf2);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 15px rgba(100, 108, 255, 0.4);
+
+    @media (max-width: 480px) {
+      box-shadow: 0 2px 8px rgba(100, 108, 255, 0.3);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #213547;
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(116, 123, 255, 0.3);
+      }
+    }
+  }
+
+  svg {
+    @media (max-width: 480px) {
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (max-width: 320px) {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  span {
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+}
+
+.projects-sections {
+  padding: 2rem 0;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0;
+  }
+}
+
+.projects-section {
+  margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 2.5rem;
+  }
+
+  &:last-child {
+    margin-bottom: 2rem;
+
+    @media (max-width: 768px) {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.section-title {
+  text-align: center;
+  font-size: clamp(1.25rem, 5vw, 2rem);
+  margin-bottom: 2rem;
+  font-weight: 600;
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 1rem;
+    text-align: left;
+    padding-left: 1rem;
+  }
+}
+
+.projects-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0 0.5rem;
+  }
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+}
+
+.projects-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+    padding-bottom: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  &::-webkit-scrollbar {
+    height: 8px;
+
+    @media (max-width: 480px) {
+      height: 6px;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+
+    @media (max-width: 480px) {
+      border-radius: 3px;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(100, 108, 255, 0.6);
+    border-radius: 4px;
+
+    @media (max-width: 480px) {
+      border-radius: 3px;
+    }
+
+    &:hover {
+      background: rgba(100, 108, 255, 0.8);
+    }
+  }
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  scroll-snap-align: start;
+
+  @media (max-width: 480px) {
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(100, 108, 255, 0.2);
+      border-color: rgba(100, 108, 255, 0.3);
+
+      .project-overlay {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 5px 15px rgba(100, 108, 255, 0.15);
+
+      .project-overlay {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.horizontal {
+    flex-shrink: 0;
+    min-width: 280px;
+    width: 280px;
+
+    @media (max-width: 480px) {
+      min-width: 260px;
+      width: 260px;
+    }
+
+    @media (max-width: 320px) {
+      min-width: 240px;
+      width: 240px;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+
+    @media (hover: hover) {
+      &:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-color: rgba(116, 123, 255, 0.3);
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+}
+
+.project-image {
+  position: relative;
+  height: 200px;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.1), rgba(83, 91, 242, 0.1));
+  display: flex; // Kept for centering placeholder when image is not shown
+  align-items: center; // Kept for centering placeholder
+  justify-content: center; // Kept for centering placeholder
+
+  @media (max-width: 768px) {
+    height: 160px;
+  }
+
+  @media (max-width: 480px) {
+    height: 140px;
+  }
+
+  @media (max-width: 320px) {
+    height: 120px;
+  }
+}
+
+.project-placeholder {
+  font-size: 3rem;
+  color: rgba(100, 108, 255, 0.6);
+  // Centering is handled by .project-image's flex properties
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 1.75rem;
+  }
+}
+
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+
+  @media (hover: none) {
+    opacity: 0.3;
+  }
+}
+
+.play-button {
+  background: linear-gradient(135deg, #646cff, #535bf2);
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+
+  @media (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 320px) {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(100, 108, 255, 0.6);
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      transform: scale(0.9);
+      box-shadow: 0 2px 8px rgba(100, 108, 255, 0.4);
+    }
+  }
+}
+
+.project-info {
+  padding: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0.75rem;
+  }
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+  line-height: 1.3;
+  word-break: break-word;
+  hyphens: auto;
+
+  @media (max-width: 480px) {
+    font-size: 1.125rem;
+    margin-bottom: 0.375rem;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 1rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: #213547;
+  }
+}
+
+.project-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  word-break: break-word;
+  hyphens: auto;
+
+  @media (max-width: 480px) {
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.375rem;
+  }
+
+  @media (max-width: 320px) {
+    gap: 0.25rem;
+  }
+}
+
+.project-tag {
+  background: rgba(100, 108, 255, 0.2);
+  color: rgba(100, 108, 255, 1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+
+  @media (max-width: 480px) {
+    padding: 0.1875rem 0.375rem;
+    font-size: 0.6875rem;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0.125rem 0.25rem;
+    font-size: 0.625rem;
+  }
+}
+
+.empty-section {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: rgba(255, 255, 255, 0.6);
+
+  @media (max-width: 768px) {
+    padding: 2.5rem 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 2rem 0.75rem;
+  }
+
+  svg {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: rgba(100, 108, 255, 0.4);
+
+    @media (max-width: 480px) {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    @media (max-width: 320px) {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+
+    @media (max-width: 480px) {
+      font-size: 1.125rem;
+      margin-bottom: 0.375rem;
+    }
+
+    @media (max-width: 320px) {
+      font-size: 1rem;
+    }
+  }
+
+  p {
+    font-size: 0.875rem;
+    margin: 0;
+
+    @media (max-width: 480px) {
+      font-size: 0.8125rem;
+    }
+
+    @media (max-width: 320px) {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: rgba(0, 0, 0, 0.6);
+
+    h3 {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+.projects-footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem 0;
+  }
+
+  @media (prefers-color-scheme: light) {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 320px) {
+    padding: 0 0.5rem;
+  }
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font-size: 0.875rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.8125rem;
+    text-align: left;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 0.75rem;
+  }
+
+  @media (prefers-color-scheme: light) {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.footer-link {
+  color: #646cff;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+
+  @media (max-width: 480px) {
+    margin-left: 0.375rem;
+    gap: 0.1875rem;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: #535bf2;
+      text-decoration: underline;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      color: #535bf2;
+      transform: scale(0.95);
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background: linear-gradient(135deg, #646cff, #535bf2);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  100% {
+    background: linear-gradient(135deg, #535bf2, #4c4ff7);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .project-card {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .category-button {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .project-tag {
+    border: 1px solid rgba(100, 108, 255, 0.5);
+  }
+}
+
+.category-button:focus-visible,
+.project-card:focus-visible,
+.play-button:focus-visible,
+.footer-link:focus-visible {
+  outline: 2px solid #646cff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .category-button,
+  .play-button,
+  .footer-link {
+    min-height: 44px; // Ensure touch targets are adequately sized
+    min-width: 44px;  // Ensure touch targets are adequately sized
+  }
+}
+</style>
