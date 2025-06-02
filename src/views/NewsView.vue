@@ -77,28 +77,28 @@
       id: 1,
       title: 'By ROlil Studio',
       description: 'Official Telegram channel By ROlil Studio for studio news',
-      image: 'src/assets/By-ROlil-Studio-Big.jpg',
+      image: 'https://i.ibb.co/BK74r3d3/By-ROlil-Studio-Big.jpg',
       url: 'https://t.me/By_RORlil'
     },
     {
       id: 2,
       title: 'IT Sphere',
       description: 'Official Telegram channel By ROlil Studio about IT',
-      image: 'src/assets/IT-Sphere.jpg',
+      image: 'https://i.ibb.co/DPGn23nW/IT-Sphere.jpg',
       url: 'https://t.me/CLIP_Project_AI'
     },
     {
       id: 3,
       title: 'By ROlil Studio Characters',
       description: 'Telegram channel about By ROlil Studio characters',
-      image: 'src/assets/BRS-Characters.png',
+      image: 'https://i.ibb.co/DxP91zp/BRS-Characters.png',
       url: 'https://t.me/CharactersByRORlilCo'
     },
     {
       id: 4,
       title: 'Five Nights at Stickmans',
       description: 'Telegram channel about FNaF parody game series FNaS from By ROlil Studio',
-      image: 'src/assets/FNaS-Logo.jpg',
+      image: 'https://i.ibb.co/k25HppP4/FNa-S-Logo.jpg',
       url: 'https://t.me/CharactersByRORlilCo'
     }
   ])
