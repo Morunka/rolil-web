@@ -1,5 +1,5 @@
-# Vue 3 + TypeScript + Vite
+# By ROlil Studio website
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This site, written in Vue.js + ts, was created as the best replacement for morunka.github.io. On this site you can get acquainted with our studio, projects, history, leave feedback and support us financially.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+The site is still being sorted out, we are changing for bugs and errors.
