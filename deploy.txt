@@ -1,0 +1,13 @@
+npm run build
+cd dist
+git add -A
+git commit -m ''
+git push -f git@github.com:Morunka/rolil-web.git master:gh-pages
+
+OR
+
+npm run build
+git add .
+git commit -m ''
+git push -f origin master
+npm run deploy
