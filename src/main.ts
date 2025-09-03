@@ -73,14 +73,44 @@ import {
   faServer,
   faTools,
   faCog,
+  faBookOpen,
+  faChevronLeft,
+  faChevronRight,
+  faImage,
+  faTimes,
+  faComment,
+  faThLarge,
+  faChevronDown,
+  faArrowLeft,
+  faListCheck,
+  faCircleQuestion,
+  faBook,
+  faTrash,
+  faSeedling,
+  faUsers,
+  faBullseye,
+  faHandsHelping,
+  faHistory,
+  faPaintBrush,
+  faUserPlus,
+  faThumbsUp,
+  faCubes,
+  faSkull,
+  faPlayCircle,
+  faUserTie,
+  faBinoculars,
+  faCompass,
+  faBullhorn,
+  faArrowsRotate,
+  faHeading,
+  faInbox,
+  faListSquares,
+  faFilter,
+  faList
 } from '@fortawesome/free-solid-svg-icons'
 
-// *** FIX START ***
 // Import the 'telegram' icon from the brands style
-import { faTelegram } from '@fortawesome/free-brands-svg-icons'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faTwitter } from '@fortawesome/free-brands-svg-icons'
-// *** FIX END ***
+import { faTelegram, faYoutube, faGithub, faTwitter, faBluesky } from '@fortawesome/free-brands-svg-icons'
 
 // 3. Add the imported icons to the Font Awesome library
 library.add(
@@ -147,7 +177,41 @@ library.add(
   faTools,
   faCog,
   faTwitter,
-  faGithub
+  faGithub,
+  faBookOpen,
+  faChevronLeft,
+  faChevronRight,
+  faImage,
+  faTimes,
+  faComment,
+  faThLarge,
+  faChevronDown,
+  faArrowLeft,
+  faListCheck,
+  faBluesky,
+  faYoutube,
+  faCircleQuestion,
+  faBook,
+  faTrash,
+  faSeedling,
+  faUsers,
+  faBullseye,
+  faHandsHelping,
+  faHistory,
+  faPaintBrush,
+  faUserPlus,
+  faThumbsUp,
+  faCubes,
+  faSkull,
+  faPlayCircle,
+  faUserTie,
+  faCompass,
+  faBullhorn,
+  faArrowsRotate,
+  faHeading,
+  faInbox,
+  faList,
+  faFilter
 )
 
 const app = createApp(App)

@@ -1,3 +1,4 @@
+# Note: This program is for Windows 10 or higher.
 import os
 import requests
 from bs4 import BeautifulSoup
@@ -15,14 +16,14 @@ import shutil
 def select_folder():
     root = tk.Tk()
     root.withdraw()
-    return filedialog.askdirectory(title="Выберите папку для сохранения музыки")
+    return filedialog.askdirectory(title="Select a folder to save music")
 
 def select_file_format():
     while True:
-        choice = input("Скачивать файлы в формате .mp3 или .flac? (mp3/flac): ").strip().lower()
+        choice = input("Download files in .mp3 or .flac format? (mp3/flac): ").strip().lower()
         if choice in ['mp3', 'flac']:
             return '.' + choice
-        print("Пожалуйста, выберите 'mp3' или 'flac'.")
+        print("Please choose 'mp3' or 'flac'.")
 
 def prevent_sleep_and_lock():
     ctypes.windll.kernel32.SetThreadExecutionState(0x80000002)
@@ -64,9 +65,9 @@ def set_metadata(filepath, title, artist, file_ext):
             audio['artist'] = artist
             audio['albumartist'] = artist
             audio.save()
-        print(f"Метаданные установлены для {os.path.basename(filepath)}: {title} - {artist}")
+        print(f"Metadata set for {os.path.basename(filepath)}: {title} - {artist}")
     except Exception as e:
-        print(f"Ошибка при установке метаданных для {filepath}: {e}")
+        print(f"Error setting metadata for {filepath}: {e}")
 
 def get_download_links(url, file_format):
     response = requests.get(url)
@@ -88,7 +89,7 @@ def get_total_size(links):
             size = int(response.headers.get('Content-Length', 0))
             total_size += size
         except Exception as e:
-            print(f"Не удалось определить размер {link}: {e}")
+            print(f"Failed to determine size of {link}: {e}")
     return total_size
 
 def check_disk_space(folder_path, total_size):
@@ -96,11 +97,11 @@ def check_disk_space(folder_path, total_size):
     return free, total_size <= free, free - total_size
 
 def format_size(size):
-    for unit in ['Б', 'КБ', 'МБ', 'ГБ']:
+    for unit in ['B', 'KB', 'MB', 'GB']:
         if size < 1024:
             return f"{size:.2f} {unit}"
         size /= 1024
-    return f"{size:.2f} ТБ"
+    return f"{size:.2f} TB"
 
 def download_file(url, folder, max_retries=3):
     original_filename = url.split('/')[-1]
@@ -110,7 +111,7 @@ def download_file(url, folder, max_retries=3):
     filepath = os.path.join(folder, new_filename)
     
     if os.path.exists(filepath):
-        print(f"Файл {new_filename} уже существует, пропускаем...")
+        print(f"File {new_filename} already exists, skipping...")
         return
     
     for attempt in range(max_retries):
@@ -121,73 +122,73 @@ def download_file(url, folder, max_retries=3):
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:
                         f.write(chunk)
-            print(f"Скачан: {new_filename}")
+            print(f"Downloaded: {new_filename}")
             set_metadata(filepath, title, artist, file_ext)
             return
         except (requests.exceptions.RequestException, requests.exceptions.Timeout) as e:
-            print(f"Ошибка при скачивании {url} (попытка {attempt + 1}/{max_retries}): {e}")
+            print(f"Error downloading {url} (attempt {attempt + 1}/{max_retries}): {e}")
             if attempt < max_retries - 1:
                 time.sleep(5)
             else:
-                print(f"Не удалось скачать {url} после {max_retries} попыток.")
+                print(f"Failed to download {url} after {max_retries} attempts.")
 
 def main():
     base_url = "https://archive.org/details/the-sims-3-complete-soundtrack-radio-collection"
     folder_path = select_folder()
     if not folder_path:
-        print("Папка не выбрана. Программа завершена.")
+        print("Folder not selected. The program has been terminated.")
         return
     
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
     
-    # Запрашиваем формат файлов
+    # Request file format
     file_format = select_file_format()
-    print(f"Будут скачиваться файлы формата {file_format}")
+    print(f"Files will be downloaded in {file_format} format")
     
-    shutdown_choice = input("Выключить ПК после скачивания? (y/n): ").strip().lower()
+    shutdown_choice = input("Shutdown PC after download? (y/n): ").strip().lower()
     shutdown = shutdown_choice == 'y'
     
-    print("Получение списка файлов...")
+    print("Getting a list of files...")
     download_links = get_download_links(base_url, file_format)
     if not download_links:
-        print("Файлы не найдены. Проверьте URL или подключение к интернету.")
+        print("No files found. Check the URL or your internet connection.")
         return
     
-    print(f"Найдено {len(download_links)} файлов формата {file_format} для скачивания.")
+    print(f"Found {len(download_links)} files in {file_format} format to download.")
     
-    check_size_choice = input("Проверить размер файлов перед скачиванием? (Это может занять время) (y/n): ").strip().lower()
+    check_size_choice = input("Check file size before downloading? (This may take time) (y/n): ").strip().lower()
     check_size = check_size_choice == 'y'
     
     if check_size:
-        print("Определение общего размера файлов...")
+        print("Determining total file size...")
         total_size = get_total_size(download_links)
-        print(f"Общий размер файлов: {format_size(total_size)}")
+        print(f"Total file size: {format_size(total_size)}")
         
         free_space, has_enough_space, remaining_space = check_disk_space(folder_path, total_size)
-        print(f"Свободное место на диске: {format_size(free_space)}")
+        print(f"Free disk space: {format_size(free_space)}")
         if has_enough_space:
-            print(f"Место на диске достаточно. После скачивания останется: {format_size(remaining_space)}")
+            print(f"There is enough disk space. Remaining after download: {format_size(remaining_space)}")
         else:
-            print(f"Недостаточно места на диске! Требуется: {format_size(total_size)}, доступно: {format_size(free_space)}")
-            input("Нажмите Enter для выхода...")
+            print(f"Insufficient disk space! Required: {format_size(total_size)}, Available: {format_size(free_space)}")
+            input("Press Enter to exit...")
             return
     else:
-        print("Проверка размера пропущена. Начинаем скачивание...")
+        print("Size check skipped. Starting download...")
     
     prevent_sleep_and_lock()
     
     try:
         for link in download_links:
             download_file(link, folder_path)
-        print("Скачивание завершено.")
+        print("Download completed.")
     finally:
         allow_sleep_and_lock()
         if shutdown:
-            print("Выключение ПК...")
+            print("Shutting down PC...")
             shutdown_pc()
         else:
-            input("Нажмите Enter для выхода...")
+            input("Press Enter to exit...")
 
 if __name__ == "__main__":
     main()
