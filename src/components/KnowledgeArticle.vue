@@ -130,7 +130,7 @@ const currentContentType = computed((): 'knowledge' | 'news' => {
 });
 
 // Определяем тип статьи
-const currentType = computed((): string => {
+const currentType = computed((): 'News' | 'Article' | 'Devlog' | 'FAQ' | 'Guide' => {
   const routeName = route.name as string;
   if (routeName === 'KnowledgeGuide') return 'Guide';
   if (routeName === 'KnowledgeFAQ') return 'FAQ';
@@ -138,7 +138,6 @@ const currentType = computed((): string => {
   if (routeName === 'Devlog') return 'Devlog';
   return 'Article';
 });
-
 // Получаем текущий slug
 const currentSlug = computed(() => route.params.slug as string);
 
@@ -433,7 +432,7 @@ const fetchArticle = async (): Promise<void> => {
         }]
       };
     } else {
-      if (typeof contentField === 'object' && contentField.nodeType) {
+      if (typeof contentField === 'object' && 'nodeType' in (contentField as any)) {
         content = contentField as RichTextContent;
       }
       else if (typeof contentField === 'object' && 'json' in contentField) {
@@ -484,15 +483,23 @@ const fetchArticle = async (): Promise<void> => {
       String(item.fields.slug) : 
       title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     
-    let articleType = '';
+    let articleType: 'Article' | 'Guide' | 'FAQ' | 'News' | 'Devlog' = 'Article';
     if (contentType === 'knowledge') {
-      articleType = item.fields.type ? 
-        (String(item.fields.type).charAt(0).toUpperCase() + String(item.fields.type).slice(1)) as 'Article' | 'Guide' | 'FAQ' : 
-        'Article';
+      if (item.fields.type) {
+        const typeStr = String(item.fields.type).toLowerCase();
+        if (typeStr === 'guide') articleType = 'Guide';
+        else if (typeStr === 'faq') articleType = 'FAQ';
+        else articleType = 'Article';
+      } else {
+        articleType = 'Article';
+      }
     } else {
-      articleType = item.fields.type ? 
-        (String(item.fields.type).toLowerCase() === 'devlog' ? 'Devlog' : 'News') : 
-        'News';
+      if (item.fields.type) {
+        const typeStr = String(item.fields.type).toLowerCase();
+        articleType = typeStr === 'devlog' ? 'Devlog' : 'News';
+      } else {
+        articleType = 'News';
+      }
     }
 
     const articleData: Article = {

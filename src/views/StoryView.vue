@@ -231,10 +231,9 @@ const timelineEvents = ref([
 ])
 
 // --- Gallery Functionality ---
-const galleryImages = ref([
-  { default: new URL('@/assets/gallery/a.png', import.meta.url).href },
-  { default: new URL('@/assets/gallery/c.jpg', import.meta.url).href },
-  // Add more hardcoded paths
+const galleryImages = ref<string[]>([
+  new URL('@/assets/gallery/a.png', import.meta.url).href,
+  new URL('@/assets/gallery/c.jpg', import.meta.url).href,
 ]);
 const currentImageIndex = ref(0);
 const galleryLoading = ref(true);

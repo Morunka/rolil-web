@@ -1,4 +1,3 @@
-<!-- src/views/GalleryView.vue -->
 <template>
   <div class="gallery">
     <!-- Page Header with Animation -->
@@ -46,8 +45,9 @@
           :key="item.name"
           class="gallery-card"
           @click="openModal(index)"
-          @touchstart="handleGalleryCardTouchStart(index)"
-          @touchend="handleGalleryCardTouchEnd"
+          @touchstart="handleGalleryCardTouchStart($event, index)"
+          @touchmove="handleGalleryCardTouchMove($event)"
+          @touchend="handleGalleryCardTouchEnd($event)"
         >
           <div class="gallery-image">
             <img
@@ -142,6 +142,7 @@ const searchQuery = ref('');
 const isModalOpen = ref(false);
 const currentImageIndex = ref(0);
 const modalRef = ref<HTMLElement | null>(null);
+const canCloseModal = ref(true); // Track if modal can be closed
 
 // --- Touch handling for mobile navigation ---
 let touchStartX = 0;
@@ -156,6 +157,14 @@ const DOUBLE_TAP_INTERVAL = 300; // milliseconds
 let isDoubleTapPending = false;
 let doubleTapTimer: number | null = null;
 
+// --- New variables for gallery card touch handling ---
+let touchStartXForCard = 0;
+let touchStartYForCard = 0;
+let touchStartTimeForCard = 0;
+let isScrolling = false;
+const TAP_MOVE_THRESHOLD = 15; // pixels - increased slightly for better scrolling
+const SCROLL_DETECT_THRESHOLD = 5; // pixels before we consider it scrolling
+
 const currentImage = computed(() => {
   return filteredGalleryItems.value[currentImageIndex.value];
 });
@@ -163,6 +172,12 @@ const currentImage = computed(() => {
 const openModal = (index: number) => {
   currentImageIndex.value = index;
   isModalOpen.value = true;
+  canCloseModal.value = false; // Initially cannot close the modal
+  
+  // Allow closing after 1 second
+  setTimeout(() => {
+    canCloseModal.value = true;
+  }, 1000);
   
   // Даем время на открытие модала перед фокусировкой
   nextTick(() => {
@@ -173,6 +188,9 @@ const openModal = (index: number) => {
 };
 
 const closeModal = () => {
+  // Don't close if it's too early
+  if (!canCloseModal.value) return;
+  
   isModalOpen.value = false;
   currentImageIndex.value = 0;
   
@@ -267,14 +285,34 @@ const handleTouchEnd = () => {
 };
 
 // Обработчик для карточек галереи (мобильные устройства)
-const handleGalleryCardTouchStart = (index: number) => {
+const handleGalleryCardTouchStart = (e: TouchEvent, index: number) => {
   currentImageIndex.value = index;
   lastTouchTime = Date.now();
+  // Store touch start position for tap/swipe detection
+  touchStartXForCard = e.touches[0].clientX;
+  touchStartYForCard = e.touches[0].clientY;
+  touchStartTimeForCard = Date.now();
+  isScrolling = false;
 };
 
-const handleGalleryCardTouchEnd = () => {
-  const touchTime = Date.now() - lastTouchTime;
-  if (touchTime < TAP_THRESHOLD) {
+const handleGalleryCardTouchMove = (e: TouchEvent) => {
+  // Calculate distance moved
+  const touchEndX = e.touches[0].clientX;
+  const touchEndY = e.touches[0].clientY;
+  const distanceX = Math.abs(touchEndX - touchStartXForCard);
+  const distanceY = Math.abs(touchEndY - touchStartYForCard);
+  
+  // If moved more than threshold, consider it scrolling
+  if (distanceX > SCROLL_DETECT_THRESHOLD || distanceY > SCROLL_DETECT_THRESHOLD) {
+    isScrolling = true;
+  }
+};
+
+const handleGalleryCardTouchEnd = (e: TouchEvent) => {
+  const touchTime = Date.now() - touchStartTimeForCard;
+  
+  // Only open modal if it's a short tap (not a swipe) and not scrolling
+  if (touchTime < TAP_THRESHOLD && !isScrolling) {
     openModal(currentImageIndex.value);
   }
 };
@@ -334,22 +372,11 @@ onMounted(() => {
     // Устанавливаем метатег для корректного отображения на мобильных устройствах
     let viewport = document.querySelector('meta[name="viewport"]');
     if (!viewport) {
-      viewport = document.createElement('meta');
-      viewport.name = 'viewport';
-      viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-      document.head.appendChild(viewport);
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      document.head.appendChild(meta);
     }
-  }
-});
-
-// Очищаем обработчик при размонтировании
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeyDown);
-  
-  // Очищаем таймер двойного нажатия
-  if (doubleTapTimer) {
-    clearTimeout(doubleTapTimer);
-    doubleTapTimer = null;
   }
 });
 
@@ -685,7 +712,6 @@ watch(route, (newRoute) => {
   height: 250px;
   overflow: hidden;
   background: linear-gradient(135deg, rgba(100, 108, 255, 0.05), rgba(83, 91, 242, 0.05));
-  touch-action: none; // Предотвращаем прокрутку при касании изображения
 
   @media (max-width: 768px) {
     height: 200px;

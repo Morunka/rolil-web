@@ -263,7 +263,6 @@ const initializeChart = () => {
               align: 'top', // Alignment relative to the anchor point
               offset: -5, // Offset from the anchor point
               // Ensure labels are drawn on top
-              z: 10
             }
           },
           scales: {

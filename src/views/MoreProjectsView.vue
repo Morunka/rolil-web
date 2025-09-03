@@ -118,7 +118,6 @@
               :src="project.image"
               :alt="project.title"
               class="project-actual-image"
-              @error="() => setImageLoadFailed(project.id)"
             />
             <div v-else class="project-placeholder">
               <!-- Исправлена иконка: используем project.FontawesomeIcon напрямую -->
