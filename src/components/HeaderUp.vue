@@ -601,8 +601,11 @@ onUnmounted(() => {
   position: relative;
 
   &--active {
-    background: linear-gradient(135deg, #5a5d68, #50535e);
-    border-color: #535bf2;
+    background: linear-gradient(135deg, #747bff, #646cff);
+    color: #ffffff;
+    &:hover {
+      background: linear-gradient(135deg, #646cff, #535bf2) !important;
+    }
   }
 
   &--support {
@@ -610,8 +613,8 @@ onUnmounted(() => {
     border-color: rgba(255, 255, 255, 0.3);
     animation: shimmer 3s infinite;
     &:hover {
-      background: linear-gradient(135deg, #ff5252, #ff0000);
-      border-color: #ff9999;
+      background: linear-gradient(135deg, #ff5252, #ff0000) !important;
+      border-color: #ff9999 !important;
     }
     &.nav-button--active {
       background: linear-gradient(135deg, #ff5252, #cc0000);
@@ -626,11 +629,6 @@ onUnmounted(() => {
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: #646cff;
-  }
-
-  &:active {
-    background: rgba(200, 200, 200, 0.15);
-    border-color: rgba(200, 200, 200, 0.25);
   }
 
   &__label {
@@ -690,29 +688,6 @@ onUnmounted(() => {
   }
   &--open {
     transform: rotate(180deg);
-  }
-}
-
-.mobile-menu-item {
-  justify-content: flex-start;
-  display: flex;
-  align-items: center;
-  &--support {
-    background: linear-gradient(135deg, #ff6b6b, #ff5252);
-    border-color: rgba(255, 255, 255, 0.3);
-    animation: shimmer 3s infinite;
-    &:hover {
-      background: linear-gradient(135deg, #ff5252, #ff0000);
-      border-color: #ff9999;
-    }
-    &.mobile-menu-item--active {
-      background: linear-gradient(135deg, #ff5252, #cc0000);
-      border-color: #ff3333;
-    }
-    &:active {
-      background: rgba(200, 0, 0, 0.3);
-      border-color: rgba(255, 100, 100, 0.5);
-    }
   }
 }
 
@@ -995,9 +970,11 @@ onUnmounted(() => {
     }
 
     &--active {
-      background: linear-gradient(135deg, #5a5d68, #50535e);
-      border-color: #535bf2;
+      background: linear-gradient(135deg, #747bff, #646cff);
       color: #ffffff;
+      &:hover {
+        background: linear-gradient(135deg, #646cff, #535bf2) !important;
+      }
     }
 
     &:active {
@@ -1038,6 +1015,30 @@ onUnmounted(() => {
     transition: max-height 0.5s ease-in;
   }
 }
+
+.mobile-menu-item {
+  justify-content: flex-start;
+  display: flex;
+  align-items: center;
+  &--support {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: white;
+    &:hover {
+      background: linear-gradient(135deg, #ff5252, #ff0000);
+      border-color: #ff3333;
+    }
+    &.mobile-menu-item--active {
+      background: linear-gradient(135deg, #ff5252, #cc0000);
+      border-color: #ff0000;
+    }
+    &:active {
+      background: rgba(200, 0, 0, 0.2);
+      border-color: rgba(255, 50, 50, 0.3);
+    }
+  }
+}
+
 
 .nav-brand {
   display: flex;
@@ -1336,10 +1337,6 @@ onUnmounted(() => {
     border-color: rgba(0, 0, 0, 0.1);
     color: #213547;
     outline: none;
-    &:hover {
-      background: rgba(0, 0, 0, 0.1);
-      border-color: #747bff;
-    }
     &--active {
       background: linear-gradient(135deg, #747bff, #646cff);
       color: #ffffff;
@@ -1394,6 +1391,12 @@ onUnmounted(() => {
       background: rgba(200, 0, 0, 0.2);
       border-color: rgba(255, 50, 50, 0.3);
     }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .projects-dropdown {
+    background-color: #353535;
   }
 }
 </style>
