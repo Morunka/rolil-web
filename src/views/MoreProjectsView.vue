@@ -235,11 +235,11 @@ const isInitialized = ref(false);
 const scrollPosition = ref(0);
 
 const socialLinks = ref([
-  { name: 'Itch.io', url: 'https://by-rolil-studio.itch.io    ', imageUrl: new URL('@/assets/icons/itchio.png', import.meta.url).href },
-  { name: 'Newgrounds', url: 'https://by-rolil-studio.newgrounds.com    ', imageUrl: new URL('@/assets/icons/newgrounds.png', import.meta.url).href },
-  { name: 'GameJolt', url: 'https://gamejolt.com/@By-ROlil    ', imageUrl: new URL('@/assets/icons/gamejolt.png', import.meta.url).href },
-  { name: 'Kogama', url: 'https://www.kogama.com/profile/667438867    ', imageUrl: new URL('@/assets/icons/kogama.png', import.meta.url).href },
-  { name: 'Scratch', url: 'https://scratch.mit.edu/users/By-ROlil-CO    ', imageUrl: new URL('@/assets/icons/scratch.png', import.meta.url).href }
+  { name: 'Itch.io', url: 'https://by-rolil-studio.itch.io    ', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/game-platforms/itchio.webp' },
+  { name: 'Newgrounds', url: 'https://by-rolil-studio.newgrounds.com    ', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/game-platforms/newgrounds.webp' },
+  { name: 'GameJolt', url: 'https://gamejolt.com/@By-ROlil    ', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/game-platforms/gamejolt.webp' },
+  { name: 'Kogama', url: 'https://www.kogama.com/profile/667438867    ', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/game-platforms/kogama.webp' },
+  { name: 'Scratch', url: 'https://scratch.mit.edu/users/By-ROlil-CO    ', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/game-platforms/scratch.webp' }
 ]);
 
 const projectTypes = ref([

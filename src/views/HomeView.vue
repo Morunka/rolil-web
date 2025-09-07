@@ -151,14 +151,14 @@ const features = ref([
 ]);
 
 const socialLinks = ref([
-    { name: 'YouTube', url: 'https://www.youtube.com/@FNABRC', imageUrl: new URL('@/assets/icons/youtube.webp', import.meta.url).href }
+    { name: 'YouTube', url: 'https://www.youtube.com/@FNABRC', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/community/youtube.webp' }
   ])
 
 // Dynamically import image paths
-const GodotImagePath = new URL('@/assets/icons/Godot.png', import.meta.url).href;
-const BlenderImagePath = new URL('@/assets/icons/Blender.png', import.meta.url).href;
-const GIMPImagePath = new URL('@/assets/icons/GIMP.png', import.meta.url).href;
-const VueJsImagePath = new URL('@/assets/icons/Vue.js.png', import.meta.url).href;
+const GodotImagePath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/godot.webp';
+const BlenderImagePath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/blender.webp';
+const GIMPImagePath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/gimp.webp';
+const VueJsImagePath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/apps/vue.webp';
 
 // Tools data with updated image paths
 const tools = ref([

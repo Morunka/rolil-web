@@ -6,7 +6,7 @@ import HeaderUp from './components/HeaderUp.vue';
 const router = useRouter();
 const route = useRoute();
 
-const secretImagePath = new URL('@/assets/stickers/golden_rolil.png', import.meta.url).href;
+const secretImagePath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/golden_rolil.webp';
 
 const openStickerSet = () => {
   window.open('https://t.me/addstickers/ByROlilStudio', '_blank');

@@ -9,5 +9,13 @@ OR
 npm run build
 git add .
 git commit -m ''
-git push -f origin master
 npm run deploy
+git push -f origin master
+
+--
+
+Сохранить только сайт:
+npm run deploy
+
+Сохранить только файлы:
+git push -f origin master

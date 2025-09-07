@@ -123,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, nextTick, onUnmounted } from 'vue';
+import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -193,13 +193,6 @@ const closeModal = () => {
   
   isModalOpen.value = false;
   currentImageIndex.value = 0;
-  
-  // Очищаем таймер двойного нажатия при закрытии модала
-  if (doubleTapTimer) {
-    clearTimeout(doubleTapTimer);
-    doubleTapTimer = null;
-  }
-  isDoubleTapPending = false;
 };
 
 const goToPreviousImage = () => {

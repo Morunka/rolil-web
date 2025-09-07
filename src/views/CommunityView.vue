@@ -77,9 +77,9 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const socialLinks = ref([
-  { name: 'Telegram', url: 'https://t.me/By_RORlil', imageUrl: new URL('@/assets/icons/telegram.webp', import.meta.url).href },
-  { name: 'X (Twitter)', url: 'https://x.com/ByROlilStudio', imageUrl: new URL('@/assets/icons/x.png', import.meta.url).href },
-  { name: 'Bluesky', url: 'https://bsky.app/profile/byrolilstudio.bsky.social', imageUrl: new URL('@/assets/icons/bluesky.png', import.meta.url).href }
+  { name: 'Telegram', url: 'https://t.me/By_RORlil', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/community/telegram.webp'},
+  { name: 'X (Twitter)', url: 'https://x.com/ByROlilStudio', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/community/x.webp'},
+  { name: 'Bluesky', url: 'https://bsky.app/profile/byrolilstudio.bsky.social', imageUrl: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/icons/community/bluesky.webp'}
 ])
 
 const joinTelegram = () => {
@@ -91,7 +91,7 @@ const getNotificated = () => {
 }
 
 const navigateToDiscussion = () => {
-  window.open('https://t.me/By_RORlil/1', '_blank', 'noopener,noreferrer')
+  window.open('https://t.me/ByROlilStudio', '_blank', 'noopener,noreferrer')
 }
 
 // NEW: Function to navigate to the new feedback page

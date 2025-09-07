@@ -462,26 +462,26 @@ const openStickerSet = () => {
   window.open('https://t.me/addstickers/ByROlilStudio', '_blank', 'noopener,noreferrer');
 };
 
-const logoPath = new URL('@/assets/icons/ROlil_Logo.png', import.meta.url).href;
+const logoPath = 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/logos/studio/icon.ico'
 
 const stickerPaths: { [key: string]: string } = {
-  Home: new URL('@/assets/stickers/ddrh.png', import.meta.url).href,
-  News: new URL('@/assets/stickers/mille.png', import.meta.url).href,
-  Me: new URL('@/assets/stickers/tmo_monster.png', import.meta.url).href,
-  Story: new URL('@/assets/stickers/brs.png', import.meta.url).href,
-  Projects: new URL('@/assets/stickers/wes.png', import.meta.url).href,
-  Team: new URL('@/assets/stickers/svips.png', import.meta.url).href,
-  Knowledge: new URL('@/assets/stickers/pp.png', import.meta.url).href,
-  About: new URL('@/assets/stickers/rolil.png', import.meta.url).href,
-  'Not Found': new URL('@/assets/stickers/lost.png', import.meta.url).href,
-  'More projects': new URL('@/assets/stickers/ro.png', import.meta.url).href,
-  Article: new URL('@/assets/stickers/gbam.png', import.meta.url).href,
-  Jobs: new URL('@/assets/stickers/mm.png', import.meta.url).href,
-  Community: new URL('@/assets/stickers/evil_mister_facilator.png', import.meta.url).href,
-  Feedback: new URL('@/assets/stickers/cup.png', import.meta.url).href,
-  Gallery: new URL('@/assets/stickers/ai_folder.png', import.meta.url).href,
-  Contact: new URL('@/assets/stickers/wibbi.png', import.meta.url).href,
-  'News Post': new URL('@/assets/stickers/robot_tmo_eye.png', import.meta.url).href
+  Home: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/ddrh.webp',
+  News: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/mille.webp',
+  Me: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/tmo_monster.webp',
+  Story: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/brs.webp',
+  Projects: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/wes.webp',
+  Team: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/svips.webp',
+  Knowledge: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/pp.webp',
+  About: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/rolil.webp',
+  'Not Found': 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/lost.webp',
+  'More projects': 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/ro.webp',
+  Article: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/gbam.webp',
+  Jobs: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/mm.webp',
+  Community: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/evil_mister_facilator.webp',
+  Feedback: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/cup.webp',
+  Gallery: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/ai_folder.webp',
+  Contact: 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/wibbi.webp',
+  'News Post': 'https://raw.githubusercontent.com/Morunka/mediaIcons/refs/heads/main/media/stickers/robot_tmo_eye.webp'
 };
 
 const getStickerPath = (page: string): string => {
